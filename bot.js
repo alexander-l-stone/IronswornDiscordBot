@@ -28,25 +28,26 @@ client.on('ready', () => {
           });
       });
   });
-  console.log("Loading Characters");
-  fs.appendFile(logfile, 'Loading Characters \n', function (err) {
-    if (err) throw err;
-    console.log("Error writing file!");
-  });
-  if (fs.existsSync('characters.json')) {
-    charjson = require('./characters.json');
-    characters = JSON.parse(charjson.characters);
-    fs.appendFile(logfile, 'Characters Loaded \n', function (err) {
-      if (err) throw err;
-      console.log("Error writing file!");
-    });
-  }
-  else{
-    fs.appendFile(logfile, 'No Characters to Load\n', function (err) {
-      if (err) throw err;
-      console.log("Error writing file!");
-    });
-  }
+  // console.log("Loading Characters");
+  // fs.appendFile(logfile, 'Loading Characters \n', function (err) {
+  //   if (err) throw err;
+  //   console.log("Error writing file!");
+  // });
+  // if (fs.existsSync('characters.json')) {
+  //   charjson = require('./characters.json');
+  //   console.log(charjson);
+  //   characters = JSON.parse(charjson);
+  //   fs.appendFile(logfile, 'Characters Loaded \n', function (err) {
+  //     if (err) throw err;
+  //     console.log("Error writing file!");
+  //   });
+  // }
+  // else{
+  //   fs.appendFile(logfile, 'No Characters to Load\n', function (err) {
+  //     if (err) throw err;
+  //     console.log("Error writing file!");
+  //   });
+  // }
 });
 bot_secret_token = auth.token;
 
@@ -66,6 +67,14 @@ client.on('message', (receivedMessage) => {
   }
 });
 
+// client.on('disconnect', () =>{
+//   jsonchars = JSON.stringify(characters);
+//   fs.writeFile('characters.json', `"characters": ${jsonchars}`, function(err) {
+//     if (err) throw err;
+//     console.log("Error saving characters");
+//   });
+// })
+
 function rollDice(modifier=0){
   //rolls 1d6+modifier and checks to see how many d10s its greater than.
   let d6 = Math.floor(Math.random() * (6 - 1 + 1)) + 1 + modifier;
@@ -76,26 +85,26 @@ function rollDice(modifier=0){
   console.log("D10 2:" + d2);
   if((d1 >= d6) && (d2 >= d6) && (d1 !== d2))
   {
-    return "Miss";
+    return `Miss ${d6} ${d1} ${d2}`;
   }
   else if ((d1 >= d6) && (d2 >= d6) && (d1 === d2))
   {
-    return "Miss Critical";
+    return `Miss Critical ${d6} ${d1} ${d2}`;
   }
   else if ((d1 < d6) && (d2 < d6) && (d1 !== d2))
   {
-    return "Strong-Hit";
+    return `Strong-Hit ${d6} ${d1} ${d2}`;
   }
   else if((d1 < d6) && (d2 < d6) && (d1 === d2))
   {
-    return "Strong-Hit Critical";
+    return `Strong-Hit Critical ${d6} ${d1} ${d2}`;
   }
   else if((d1 < d6) || (d2 < d6) && (d1 !== d2))
   {
-    return "Weak-Hit";
+    return `Weak-Hit ${d6} ${d1} ${d2}`;
   }
   else if ((d1 < d6) || (d2 < d6) && (d1 === d2)) {
-    return "Weak-Hit Critical";
+    return `Weak-Hit Critical ${d6} ${d1} ${d2}`;
   }
   else 
   {
@@ -115,7 +124,7 @@ function parseCommand(receivedMessage){
     console.log("Error writing file!");
   });
 
-  if(command == 'dice')
+  if(command == 'roll')
   {
     if(arguments == "edge")
     {
