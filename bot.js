@@ -3,6 +3,7 @@ var auth = require('./auth.json');
 var fs = require('fs');
 const client = new Discord.Client();
 const logfile = "console.log";
+var characters = [];
 
 client.on('ready', () => {
   // List servers the bot is connected to
@@ -27,6 +28,25 @@ client.on('ready', () => {
           });
       });
   });
+  console.log("Loading Characters");
+  fs.appendFile(logfile, 'Loading Characters \n', function (err) {
+    if (err) throw err;
+    console.log("Error writing file!");
+  });
+  if (fs.existsSync('characters.json')) {
+    charjson = require('./characters.json');
+    characters = JSON.parse(charjson.characters);
+    fs.appendFile(logfile, 'Characters Loaded \n', function (err) {
+      if (err) throw err;
+      console.log("Error writing file!");
+    });
+  }
+  else{
+    fs.appendFile(logfile, 'No Characters to Load\n', function (err) {
+      if (err) throw err;
+      console.log("Error writing file!");
+    });
+  }
 });
 bot_secret_token = auth.token;
 
