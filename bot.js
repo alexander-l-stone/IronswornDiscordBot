@@ -126,6 +126,7 @@ function parseCommand(receivedMessage){
 
   if(command == 'roll')
   {
+    //TODO: Put in a function
     if(arguments == "edge")
     {
       receivedMessage.channel.send(rollDice());
@@ -150,20 +151,39 @@ function parseCommand(receivedMessage){
       receivedMessage.channel.send(rollDice());
     }
   }
+  else if(command == 'vote')
+  {
+    voteStart(arguments, receivedMessage);
+  }
+}
+
+function voteStart(arguments, receivedMessage){
+  args = arguments.join(" ").split("|");
+  for(let i = 0; i <args.length; i++)
+  {
+    args[i] = args[i].trim();
+  }
+  finalMessage = "The Oracle has been asked to decide. Please enter !, then the characters name, then the number of the option you want to vote: \n";
+  for (let i = 0; i < args.length; i++)
+  {
+    finalMessage = finalMessage + `${i+1}: ${args[i]}\n`;
+  }
+  console.log(finalMessage);
+  receivedMessage.channel.send(finalMessage);
 }
 
 function parseHelp(receivedMessage){
   let fullMessage = receivedMessage.content.substr(1);
   if (fullMessage === "")
   {
-    helpCommand("", receivedMessage);
+    helpAll("", receivedMessage);
   }
   return;
 }
 
-function helpCommand(args, receivedMessage) {
+function helpAll(args, receivedMessage) {
   if (args === "") {
-    receivedMessage.channel.send("This is a bot for playing the tabletop RPG Ironsworn on your server. Type ? and then a command to learn more. The commands are: dice, ");
+    receivedMessage.channel.send("This is a bot for playing the tabletop RPG Ironsworn on your server. Type ? and then a command to learn more. The commands are: dice, vote");
   }
 }
 
