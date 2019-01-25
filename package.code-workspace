@@ -1,8 +1,0 @@
-{“
-  name”: “ironsworn-bot”,
-  “version”: “0.0.1”,
-  “description”: “Ironsworn Bot”,
-  “main”: “bot.js”,
-  “author”: “Alexander Stone, Richard Nicholson”,
-  “dependencies”: {}
-}
