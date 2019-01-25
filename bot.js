@@ -32,6 +32,40 @@ client.on('message', (receivedMessage) => {
   }
 });
 
+function rollDice(modifier=0){
+  //rolls 1d6+modifier and checks to see how many d10s its greater than.
+  let six = Math.floor(Math.random() * (6 - 1 + 1)) + 1 + modifier;
+  let d1 = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+  let d2 = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+  if((d1 > six) && (d2 > six) && (d1 !== d2))
+  {
+    return "Miss";
+  }
+  else if ((d1 >= six) && (d2 >= six) && (d1 === d2))
+  {
+    return "Miss Critical";
+  }
+  else if ((d1 < six) && (d2 < six) && (d1 !== d2))
+  {
+    return "Strong-Hit";
+  }
+  else if((d1 < six) && (d2 < six) && (d1 === d2))
+  {
+    return "Strong-Hit Critical";
+  }
+  else if((d1 < six) || (d2 < six) && (d1 !== d2))
+  {
+    return "Weak-Hit";
+  }
+  else if ((d1 < six) || (d2 < six) && (d1 === d2)) {
+    return "Weak-Hit Critical";
+  }
+  else 
+  {
+    return "Error"
+  }
+}
+
 function parseCommand(receivedMessage){
   return;
 }
