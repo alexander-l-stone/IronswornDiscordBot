@@ -3,48 +3,48 @@ class CharacterSheet
     constructor()
     {
         //metadata
-        let owners = [];
+        this.owners = [];
 
         //charater info
-        let charname = "";
-        let xp = 0;
-        let assets = [];
+        this.charname = "";
+        this.xp = 0;
+        this.assets = [];
 
         //attributes
-        let edge = 0;
-        let heart = 0;
-        let iron = 0;
-        let shadow = 0;
-        let wits = 0;
+        this.edge = 0;
+        this.heart = 0;
+        this.iron = 0;
+        this.shadow = 0;
+        this.wits = 0;
 
         // momentum
-        let momentum = 0;
-        let momentum_max = 10;
-        let momentum_min = -6;
+        this.momentum = 0;
+        this.momentum_max = 10;
+        this.momentum_min = -6;
         
 
         //status tracks
-        let health = 5;
-        let spirit = 5;
-        let supply = 5;
+        this.health = 5;
+        this.spirit = 5;
+        this.supply = 5;
 
         //conditions
-        let wounded = false;
-        let shaken = false;
-        let unprepared = false;
-        let encumbered = false;
+        this.wounded = false;
+        this.shaken = false;
+        this.unprepared = false;
+        this.encumbered = false;
 
         //banes
-        let harmed = false;
-        let corrupted = false;
+        this.harmed = false;
+        this.corrupted = false;
 
         //burdens
-        let cursed = false;
-        let tormented = false;
+        this.cursed = false;
+        this.tormented = false;
 
         //vows
-        let bonds = 0;
-        let vows = [];
+        this.bonds = 0;
+        this.vows = [];
     }
     
     countDebilities()
@@ -99,9 +99,9 @@ class Vow
 {
     constructor()
     {
-        let text = "";
-        let track = 0;
-        let type = 0;
+        this.text = "";
+        this.track = 0;
+        this.type = 0;
     }
 };
 

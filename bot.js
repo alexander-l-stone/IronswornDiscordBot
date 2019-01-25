@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 var auth = require('./auth.json');
 var fs = require('fs');
+var charsheet = require('./charsheet.js')
 const client = new Discord.Client();
 const logfile = "console.log";
 var characters = [];
@@ -155,6 +156,24 @@ function parseCommand(receivedMessage){
   {
     voteStart(arguments, receivedMessage);
   }
+  else if(command == 'createcharacter')
+  {
+    generateCharacter(arguments, receivedMessage);
+  }
+}
+
+function generateCharacter(arguments, receivedMessage){
+  let new_character = new charsheet.CharacterSheet();
+  new_character.owners.push(receivedMessage.author);
+  new_character.charname = arguments[0];
+  new_character.edge = parseInt(arguments[1]);
+  new_character.heart = parseInt(arguments[2]);
+  new_character.iron = parseInt(arguments[3]);
+  new_character.shadow = parseInt(arguments[4]);
+  new_character.wits = parseInt(arguments[5]);
+  characters.push(new_character);
+  charmessage = `${new_character.owners[0]} created ${new_character.charname}, an Ironsworn character with Edge: ${new_character.edge}, Heart: ${new_character.heart}, Iron: ${new_character.iron}, Shadow: ${new_character.shadow}, and Wits: ${new_character.wits}.`;
+  receivedMessage.channel.send(charmessage)
 }
 
 function voteStart(arguments, receivedMessage){
@@ -182,8 +201,17 @@ function parseHelp(receivedMessage){
 }
 
 function helpAll(args, receivedMessage) {
-  if (args === "") {
-    receivedMessage.channel.send("This is a bot for playing the tabletop RPG Ironsworn on your server. Type ? and then a command to learn more. The commands are: dice, vote");
+  if (args === "")
+  {
+    receivedMessage.channel.send("This is a bot for playing the tabletop RPG Ironsworn on your server. Type ? and then a command to learn more. The commands are: roll, vote [character]");
+  }
+  else if (args === "roll")
+  {
+    receivedMessage.channel.send("This will roll the dice and generate a result for you. By default this dice roll has no modifiers.");
+  }
+  else if (args === "vote")
+  {
+    receivedMessage.channel.send("This will allow people to vote for one of various options. The vote will be tied to a specific character.");
   }
 }
 
