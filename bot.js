@@ -85,26 +85,26 @@ function rollDice(modifier=0){
   console.log("D10 2:" + d2);
   if((d1 >= d6) && (d2 >= d6) && (d1 !== d2))
   {
-    return `Miss ${d6} ${d1} ${d2}`;
+    return `Miss [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if ((d1 >= d6) && (d2 >= d6) && (d1 === d2))
   {
-    return `Miss Critical ${d6} ${d1} ${d2}`;
+    return `Miss Critical [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if ((d1 < d6) && (d2 < d6) && (d1 !== d2))
   {
-    return `Strong-Hit ${d6} ${d1} ${d2}`;
+    return `Strong-Hit [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if((d1 < d6) && (d2 < d6) && (d1 === d2))
   {
-    return `Strong-Hit Critical ${d6} ${d1} ${d2}`;
+    return `Strong-Hit Critical [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if((d1 < d6) || (d2 < d6) && (d1 !== d2))
   {
-    return `Weak-Hit ${d6} ${d1} ${d2}`;
+    return `Weak-Hit [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if ((d1 < d6) || (d2 < d6) && (d1 === d2)) {
-    return `Weak-Hit Critical ${d6} ${d1} ${d2}`;
+    return `Weak-Hit Critical [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else 
   {
