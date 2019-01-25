@@ -80,9 +80,9 @@ function rollDice(modifier=0){
   let d6 = Math.floor(Math.random() * (6 - 1 + 1)) + 1 + modifier;
   let d1 = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
   let d2 = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-  console.log("D6:" + d6);
-  console.log("D10 1:" + d1);
-  console.log("D10 2:" + d2);
+  console.log("D6: " + d6);
+  console.log("D10 1: " + d1);
+  console.log("D10 2: " + d2);
   if((d1 >= d6) && (d2 >= d6) && (d1 !== d2))
   {
     return `Miss [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
