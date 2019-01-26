@@ -172,6 +172,10 @@ function parseCommand(receivedMessage){
   {
     generateCharacter(arguments, receivedMessage);
   }
+  else if(characters.contains(command))
+  {
+    characterCommand(arguments, receivedMessage);
+  }
 }
 
 function generateCharacter(arguments, receivedMessage){
@@ -185,17 +189,20 @@ function generateCharacter(arguments, receivedMessage){
   new_character.wits = parseInt(arguments[5]);
   characters.push(new_character);
   charmessage = `${new_character.owners[0]} created ${new_character.charname}, an Ironsworn character with Edge: ${new_character.edge}, Heart: ${new_character.heart}, Iron: ${new_character.iron}, Shadow: ${new_character.shadow}, and Wits: ${new_character.wits}.`;
-  receivedMessage.channel.send(charmessage)
+  receivedMessage.channel.send(charmessage);
 }
 
 function voteStart(arguments, receivedMessage){
   //check to see if the person asking for the vote owns a character, then set that character to a state of voting
   let hascharacter = false;
+  let activeCharacter = null;
   for(let i = 0; i < characters.length; i++)
   {
-    if (characters[i].owners.contains(receivedMessage.author) && characters[i].state == 'active')
+    if (characters[i].owners.contains(receivedMessage.author) && characters[i].state == 'active' && characters[i].charname == arguments[0])
     {
       hascharacter = true;
+      characters[i].state = 'voting';
+      activeCharacter = characters[i];
       break;
     }
   }
@@ -203,18 +210,43 @@ function voteStart(arguments, receivedMessage){
   {
     return;
   }
+  activeCharacter.vote_results = {};
   args = arguments.join(" ").split("|");
-  for(let i = 0; i <args.length; i++)
+  for(let i = 1; i <args.length; i++)
   {
     args[i] = args[i].trim();
   }
-  finalMessage = "The Oracle has been asked to decide. Please enter !, then the characters name, then the number of the option you want to vote: \n";
-  for (let i = 0; i < args.length; i++)
+  finalMessage = "The Oracle has been asked to decide. Please enter !, then the characters name, then the number of the option you want to vote for: \n";
+  for (let i = 1; i < args.length; i++)
   {
-    finalMessage = finalMessage + `${i+1}: ${args[i]}\n`;
+    //votes will be an array of usernames
+    activeCharacter.vote_results[i] = {'message': args[i], 'votes': []};
+    finalMessage = finalMessage + `${i}: ${args[i]}\n`;
   }
   console.log(finalMessage);
   receivedMessage.channel.send(finalMessage);
+}
+
+function characterCommand(args, receivedMessage) {
+  activeCharacter = null;
+  found = false;
+  for(let i = 0; i < characters.length; i++)
+  {
+    if (characters[i].charname === args[0])
+    {
+      activeCharacter = characters[i];
+      found = true;
+    }
+  }
+  if (!found) return;
+  //code for managing character votes
+  if(activeCharacter.state === 'voting')
+  {
+    if (!activeCharacter.vote_results[args[1]].contains(receivedMessage.author))
+      {
+        activeCharacter.vote_results[args[1]].push(receivedMessage.author);
+      }
+  }
 }
 
 function parseHelp(receivedMessage){
@@ -229,15 +261,15 @@ function parseHelp(receivedMessage){
 function helpAll(args, receivedMessage) {
   if (args === "")
   {
-    receivedMessage.channel.send("This is a bot for playing the tabletop RPG Ironsworn on your server. Type ? and then a command to learn more. The commands are: roll, vote [character]");
+    receivedMessage.channel.send("This is a bot for playing the tabletop RPG Ironsworn on your server. Type ? and then a command to learn more. The commands are: roll, startvote [character]");
   }
   else if (args === "roll")
   {
     receivedMessage.channel.send("This will roll the dice and generate a result for you. By default this dice roll has no modifiers.");
   }
-  else if (args === "vote")
+  else if (args === "startvote")
   {
-    receivedMessage.channel.send("This will allow people to vote for one of various options. The vote will be tied to a specific character.");
+    receivedMessage.channel.send("This will allow people to vote for one of various options. The vote will be tied to a specific character. Enter a characters name, and then a |, then each option you want to be voted on, seperating them with |'s.");
   }
 }
 

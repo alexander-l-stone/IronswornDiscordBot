@@ -4,6 +4,8 @@ class CharacterSheet
     {
         //metadata
         this.owners = [];
+        this.state = "active";
+        this.vote_results = {};
 
         //charater info
         this.charname = "";
