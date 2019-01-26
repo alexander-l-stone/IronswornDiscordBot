@@ -11,21 +11,30 @@ client.on('ready', () => {
   console.log("Servers:");
   fs.appendFile(logfile, 'Server: \n', function(err) 
   {
-    if (err) throw err;
-    console.log("Error writing file!");
+    if (err) 
+    {
+      console.log("Error writing file!");
+      throw err;
+    }
   });
   client.guilds.forEach((guild) => {
       console.log(" - " + guild.name);
       fs.appendFile(logfile," - " + guild.name + "\n", function (err) {
-        if (err) throw err;
-        console.log("Error writing file!");
+        if (err) 
+        {
+          console.log("Error writing file!");
+          throw err;
+        }
       });
       // List all channels
       guild.channels.forEach((channel) => {
           console.log(` -- ${channel.name} (${channel.type}) - ${channel.id}`);
           fs.appendFile(logfile, ` -- ${channel.name} (${channel.type}) - ${channel.id}\n`, function (err) {
-            if (err) throw err;
-            console.log("Error writing file!");
+            if (err) 
+            {
+              console.log("Error writing file!");
+              throw err;
+            }
           });
       });
   });
@@ -121,8 +130,11 @@ function parseCommand(receivedMessage){
 
   console.log(`Command recieved: ${command}\nArguments: ${arguments}`);
   fs.appendFile(logfile, `Command recieved: ${command}\nArguments: ${arguments}\n`, function (err) {
-    if (err) throw err;
-    console.log("Error writing file!");
+    if (err) 
+    {
+      console.log("Error writing file!");
+      throw err;
+    }
   });
 
   if(command == 'roll')
