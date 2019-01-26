@@ -164,7 +164,7 @@ function parseCommand(receivedMessage){
       receivedMessage.channel.send(rollDice());
     }
   }
-  else if(command == 'vote')
+  else if(command == 'startvote')
   {
     voteStart(arguments, receivedMessage);
   }
@@ -189,6 +189,20 @@ function generateCharacter(arguments, receivedMessage){
 }
 
 function voteStart(arguments, receivedMessage){
+  //check to see if the person asking for the vote owns a character, then set that character to a state of voting
+  let hascharacter = false;
+  for(let i = 0; i < characters.length; i++)
+  {
+    if (characters[i].owners.contains(receivedMessage.author) && characters[i].state == 'active')
+    {
+      hascharacter = true;
+      break;
+    }
+  }
+  if (!hascharacter)
+  {
+    return;
+  }
   args = arguments.join(" ").split("|");
   for(let i = 0; i <args.length; i++)
   {
