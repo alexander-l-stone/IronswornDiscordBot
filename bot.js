@@ -242,7 +242,7 @@ function characterCommand(args, receivedMessage) {
   //code for managing character votes
   if(activeCharacter.state === 'voting')
   {
-    if (!activeCharacter.vote_results[args[1]].includes(receivedMessage.author))
+    if (!activeCharacter.vote_results[args[1]].contains(receivedMessage.author))
       {
         activeCharacter.vote_results[args[1]].push(receivedMessage.author);
       }
