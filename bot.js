@@ -172,7 +172,7 @@ function parseCommand(receivedMessage){
   {
     generateCharacter(arguments, receivedMessage);
   }
-  else if(characters.contains(command))
+  else if(characters.includes(command))
   {
     characterCommand(arguments, receivedMessage);
   }
@@ -198,7 +198,7 @@ function voteStart(arguments, receivedMessage){
   let activeCharacter = null;
   for(let i = 0; i < characters.length; i++)
   {
-    if (characters[i].owners.contains(receivedMessage.author) && characters[i].state == 'active' && characters[i].charname == arguments[0])
+    if (characters[i].owners.includes(receivedMessage.author) && characters[i].state == 'active' && characters[i].charname == arguments[0])
     {
       hascharacter = true;
       characters[i].state = 'voting';
@@ -242,7 +242,7 @@ function characterCommand(args, receivedMessage) {
   //code for managing character votes
   if(activeCharacter.state === 'voting')
   {
-    if (!activeCharacter.vote_results[args[1]].contains(receivedMessage.author))
+    if (!activeCharacter.vote_results[args[1]].includes(receivedMessage.author))
       {
         activeCharacter.vote_results[args[1]].push(receivedMessage.author);
       }
