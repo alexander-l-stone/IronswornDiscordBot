@@ -176,6 +176,10 @@ function parseCommand(receivedMessage){
   {
     characterCommand(arguments, receivedMessage);
   }
+  else if(command == "endvote")
+  {
+    voteEnd(arguments, receivedMessage);
+  }
 }
 
 function generateCharacter(arguments, receivedMessage){
@@ -206,17 +210,14 @@ function voteStart(arguments, receivedMessage){
       break;
     }
   }
-  if (!hascharacter)
-  {
-    return;
-  }
+  if (!hascharacter) return;
   activeCharacter.vote_results = {};
   args = arguments.join(" ").split("|");
   for(let i = 1; i <args.length; i++)
   {
     args[i] = args[i].trim();
   }
-  finalMessage = "The Oracle has been asked to decide. Please enter !, then the characters name, then the number of the option you want to vote for: \n";
+  finalMessage = `${activeCharacter.charname} has asked the Oracle. Please enter !, then the characters name, then the number of the option you want to vote for: \n`;
   for (let i = 1; i < args.length; i++)
   {
     //votes will be an array of usernames
@@ -224,6 +225,39 @@ function voteStart(arguments, receivedMessage){
     finalMessage = finalMessage + `${i}: ${args[i]}\n`;
   }
   console.log(finalMessage);
+  receivedMessage.channel.send(finalMessage);
+}
+
+function voteEnd(arguments, receivedMessage){
+  let hascharacter = false;
+  let activeCharacter = null;
+  for(let i =0; i< characters.length; i++){
+    if (characters[i].owners.includes(receivedMessage.author) && characters[i].state == 'voting' && characters[i].charname == arguments[0]){
+      hascharacter = true;
+      characters[i].state = 'active';
+      activeCharacter = characters[i];
+      break;
+    }
+  }
+  if (!hascharacter) return;
+  finalMessage = `The Oracle has decided ${activeCharacter.charname}'s fate. \n`;
+  results = [];
+  for(let prop in activeCharacter.vote_results){
+    if (Object.hasOwnProperty(prop))
+    {
+      results.push({'message': prop.message, 'votes': prop.votes.length});
+    }
+  }
+  results.sort((a,b) => {return a.votes - b.votes;});
+  for(let i = 0; i < results.length; i++){
+    if(i == 0)
+    {
+      finalMessage += `The winner is: ${results[i].message} with ${results[i].votes} votes. \n`;
+    }
+    else {
+      finalMessage += `${results[i].message} got ${results[i].votes} votes. \n`;
+    }
+  }
   receivedMessage.channel.send(finalMessage);
 }
 
