@@ -96,26 +96,26 @@ function rollDice(modifier=0){
   console.log("D10 2: " + d2);
   if((d1 >= d6) && (d2 >= d6) && (d1 !== d2))
   {
-    return `Miss [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
+    return `Miss | [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if ((d1 >= d6) && (d2 >= d6) && (d1 === d2))
   {
-    return `Miss Critical [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
+    return `Miss | Critical [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if ((d1 < d6) && (d2 < d6) && (d1 !== d2))
   {
-    return `Strong-Hit [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
+    return `Strong-Hit | [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if((d1 < d6) && (d2 < d6) && (d1 === d2))
   {
-    return `Strong-Hit Critical [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
+    return `Strong-Hit | Critical [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if((d1 < d6) || (d2 < d6) && (d1 !== d2))
   {
-    return `Weak-Hit [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
+    return `Weak-Hit | [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else if ((d1 < d6) || (d2 < d6) && (d1 === d2)) {
-    return `Weak-Hit Critical [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
+    return `Weak-Hit | Critical [${d6 - modifier}] + ${modifier} vs <${d1}> <${d2}>`;
   }
   else 
   {
@@ -281,6 +281,43 @@ function characterCommand(args, receivedMessage) {
       {
         activeCharacter.vote_results[args[1]].push(receivedMessage.author);
       }
+  }
+}
+
+//args should be the recieved message as arguments (Command) (character) (attribute)
+function faceDanger(character, args, receivedMessage){
+  if (args[2] == 'edge')
+  {
+    result = rollDice(character.edge);
+    result = result.split('|');
+    if(result[0] == 'Strong-Hit ')
+    {
+      character.addMomentum(1);
+    }
+    else if(result[0] == 'Weak-Hit ')
+    {
+      
+    }
+  }
+  else if (args[2] == 'heart') 
+  {
+
+  }
+  else if (args[2] == 'iron') 
+  {
+
+  }
+  else if (args[2] == 'shadow') 
+  {
+
+  }
+  else if (args[2] == 'wits') 
+  {
+
+  }
+  else 
+  {
+
   }
 }
 
