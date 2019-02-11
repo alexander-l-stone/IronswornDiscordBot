@@ -247,7 +247,7 @@ function voteStart(arguments, receivedMessage)
   finalMessage = `${activeCharacter.name} has asked the Oracle. Please enter !, then the characters name, then the number of the option you want to vote for: \n`;
   for (let i = 1; i < args.length; i++)
   {
-    //votes will be an array of usernames
+    //votes will be stored an array of the usernames of the voters
     activeCharacter.vote_results[i] = {'message': args[i], 'votes': []};
     finalMessage = finalMessage + `${i}: ${args[i]}\n`;
   }
