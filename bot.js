@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 var auth = require('./auth.json');
 var fs = require('fs');
-var charsheet = require('./charsheet.js')
+var charsheet = require('./charsheet.js');
 const client = new Discord.Client();
 const logfile = "console.log";
 var characters = [];
@@ -320,35 +320,16 @@ function characterCommand(args, receivedMessage)
 function faceDanger(character, args, receivedMessage)
 {
   // TODO half this function isn't written
-  if (args[2] == 'edge')
+  let result = rollStat(character, args[2]);
+  if(result.type == 'Strong-Hit')
   {
-    result = rollDice(character.edge);
-    if(result.type == 'Strong-Hit ')
-    {
-      character.addMomentum(1);
-    }
-    else if(result.type == 'Weak-Hit ')
-    {
-      
-    }
+    character.addMomentum(1);
   }
-  else if (args[2] == 'heart') 
+  else if(result.type == 'Weak-Hit')
   {
-
+    
   }
-  else if (args[2] == 'iron') 
-  {
-
-  }
-  else if (args[2] == 'shadow') 
-  {
-
-  }
-  else if (args[2] == 'wits') 
-  {
-
-  }
-  else 
+  else if(result.type == 'Miss')
   {
 
   }
