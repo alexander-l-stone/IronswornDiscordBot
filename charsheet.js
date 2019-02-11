@@ -8,7 +8,7 @@ class CharacterSheet
         this.vote_results = {};
 
         //charater info
-        this.charname = "";
+        this.name = "";
         this.xp = 0;
         this.assets = [];
 
